@@ -1,0 +1,38 @@
+name: qr_reader
+description: "QR Scanner con recorte de imagen"
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2
+  crop_your_image: ^2.0.0
+  google_mlkit_barcode_scanning: ^0.14.2
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  icons_launcher: ^3.1.0
+
+# Configuración de icons_launcher (genera íconos de la app)
+icons_launcher:
+  image_path: "assets/icono.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
