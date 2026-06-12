@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.byErudito.qr_reader"
-        minSdk = flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion  // Requerido por google_mlkit_barcode_scanning
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -48,6 +48,9 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            // Desactivar minify/shrink para evitar que R8 rompa ML Kit en release
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
