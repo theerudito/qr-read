@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'QR Scanner Pro',
+      title: 'QR Reader',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorSchemeSeed: const Color(0xFF6C63FF),
@@ -208,7 +208,7 @@ class _QrCropScannerPageState extends State<QrCropScannerPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('QR Scanner Pro'),
+        title: const Text('QR Reader'),
         leading: _step != AppStep.select
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -239,38 +239,38 @@ class _QrCropScannerPageState extends State<QrCropScannerPage>
           ),
           child: switch (_step) {
             AppStep.select => _SelectPage(
-                key: const ValueKey('select'),
-                onCamera: () => _pickImage(ImageSource.camera),
-                onGallery: () => _pickImage(ImageSource.gallery),
-              ),
+              key: const ValueKey('select'),
+              onCamera: () => _pickImage(ImageSource.camera),
+              onGallery: () => _pickImage(ImageSource.gallery),
+            ),
             AppStep.crop => _CropPage(
-                key: const ValueKey('crop'),
-                imageBytes: _originalImageBytes!,
-                cropController: _cropController,
-                isCropping: _isCropping,
-                onCrop: _triggerCrop,
-                onCropped: (Uint8List cropped) {
-                  setState(() => _croppedImageBytes = cropped);
-                  _scanQr(cropped);
-                },
-                onError: (String err) {
-                  _showError('Error al recortar: $err');
-                  setState(() {
-                    _isCropping = false;
-                    _step = AppStep.result;
-                  });
-                },
-              ),
+              key: const ValueKey('crop'),
+              imageBytes: _originalImageBytes!,
+              cropController: _cropController,
+              isCropping: _isCropping,
+              onCrop: _triggerCrop,
+              onCropped: (Uint8List cropped) {
+                setState(() => _croppedImageBytes = cropped);
+                _scanQr(cropped);
+              },
+              onError: (String err) {
+                _showError('Error al recortar: $err');
+                setState(() {
+                  _isCropping = false;
+                  _step = AppStep.result;
+                });
+              },
+            ),
             AppStep.result => _ResultPage(
-                key: const ValueKey('result'),
-                croppedImageBytes: _croppedImageBytes,
-                isScanning: _isScanning,
-                qrResult: _qrResult,
-                errorMessage: _errorMessage,
-                onRetry: _backToCrop,
-                onReset: _reset,
-                pulseAnim: _pulseAnim,
-              ),
+              key: const ValueKey('result'),
+              croppedImageBytes: _croppedImageBytes,
+              isScanning: _isScanning,
+              qrResult: _qrResult,
+              errorMessage: _errorMessage,
+              onRetry: _backToCrop,
+              onReset: _reset,
+              pulseAnim: _pulseAnim,
+            ),
           },
         ),
       ),
@@ -284,7 +284,11 @@ class _SelectPage extends StatelessWidget {
   final VoidCallback onCamera;
   final VoidCallback onGallery;
 
-  const _SelectPage({super.key, required this.onCamera, required this.onGallery});
+  const _SelectPage({
+    super.key,
+    required this.onCamera,
+    required this.onGallery,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -316,8 +320,11 @@ class _SelectPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.qr_code_scanner_rounded,
-                    color: Colors.white, size: 48),
+                const Icon(
+                  Icons.qr_code_scanner_rounded,
+                  color: Colors.white,
+                  size: 48,
+                ),
                 const SizedBox(height: 12),
                 const Text(
                   'Escanea tu QR',
@@ -377,7 +384,6 @@ class _SelectPage extends StatelessWidget {
             accentColor: const Color(0xFF9C27B0),
             onTap: onGallery,
           ),
-
         ],
       ),
     );
@@ -455,8 +461,10 @@ class _BigOptionButton extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Icon(Icons.chevron_right_rounded,
-                    color: accentColor.withValues(alpha: 0.7)),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: accentColor.withValues(alpha: 0.7),
+                ),
               ],
             ),
           ),
@@ -465,7 +473,6 @@ class _BigOptionButton extends StatelessWidget {
     );
   }
 }
-
 
 // ═══════════════════════════ PÁGINA 2: RECORTE ═══════════════════════════
 
@@ -497,18 +504,24 @@ class _CropPage extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6C63FF).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: const Color(0xFF6C63FF).withValues(alpha: 0.4)),
+                    color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+                  ),
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.touch_app_rounded,
-                        color: Color(0xFF6C63FF), size: 16),
+                    Icon(
+                      Icons.touch_app_rounded,
+                      color: Color(0xFF6C63FF),
+                      size: 16,
+                    ),
                     SizedBox(width: 6),
                     Text(
                       'Selecciona el área del QR',
@@ -541,9 +554,7 @@ class _CropPage extends StatelessWidget {
                 baseColor: Colors.black,
                 maskColor: Colors.black.withValues(alpha: 0.6),
                 progressIndicator: const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFF6C63FF),
-                  ),
+                  child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
                 ),
                 onCropped: (CropResult result) {
                   if (result is CropSuccess) {
@@ -569,8 +580,8 @@ class _CropPage extends StatelessWidget {
                       color: const Color(0xFF6C63FF).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                          color:
-                              const Color(0xFF6C63FF).withValues(alpha: 0.3)),
+                        color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
+                      ),
                     ),
                     child: const Center(
                       child: Row(
@@ -619,8 +630,10 @@ class _CropPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: onCrop,
-                      icon: const Icon(Icons.qr_code_scanner_rounded,
-                          color: Colors.white),
+                      icon: const Icon(
+                        Icons.qr_code_scanner_rounded,
+                        color: Colors.white,
+                      ),
                       label: const Text(
                         'Recortar y leer QR',
                         style: TextStyle(
@@ -683,14 +696,12 @@ class _ResultPage extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                  color: const Color(0xFF6C63FF).withValues(alpha: 0.4)),
+                color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+              ),
               color: Colors.black,
             ),
             clipBehavior: Clip.antiAlias,
-            child: Image.memory(
-              croppedImageBytes!,
-              fit: BoxFit.contain,
-            ),
+            child: Image.memory(croppedImageBytes!, fit: BoxFit.contain),
           ),
           const SizedBox(height: 24),
         ],
@@ -742,8 +753,9 @@ class _ResultPage extends StatelessWidget {
                 color: const Color(0xFF6C63FF).withValues(alpha: 0.15),
                 shape: BoxShape.circle,
                 border: Border.all(
-                    color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
-                    width: 2),
+                  color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+                  width: 2,
+                ),
               ),
               child: const Center(
                 child: CircularProgressIndicator(
@@ -778,8 +790,11 @@ class _ResultPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.qr_code_2_rounded,
-              color: Colors.redAccent, size: 48),
+          const Icon(
+            Icons.qr_code_2_rounded,
+            color: Colors.redAccent,
+            size: 48,
+          ),
           const SizedBox(height: 12),
           const Text(
             'No se pudo leer el QR',
@@ -832,8 +847,11 @@ class _ResultPage extends StatelessWidget {
                   color: Colors.greenAccent.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.check_circle_rounded,
-                    color: Colors.greenAccent, size: 24),
+                child: const Icon(
+                  Icons.check_circle_rounded,
+                  color: Colors.greenAccent,
+                  size: 24,
+                ),
               ),
               const SizedBox(width: 12),
               const Text(
@@ -865,9 +883,11 @@ class _ResultPage extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.greenAccent,
                 side: BorderSide(
-                    color: Colors.greenAccent.withValues(alpha: 0.4)),
+                  color: Colors.greenAccent.withValues(alpha: 0.4),
+                ),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
               onPressed: () {
@@ -884,7 +904,8 @@ class _ResultPage extends StatelessWidget {
                     backgroundColor: const Color(0xFF1A1A2E),
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     duration: const Duration(seconds: 2),
                   ),
                 );
